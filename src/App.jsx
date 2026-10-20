@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 class MediaItem {
-  constructor(id, title, category, rating, price, image, description) {
+  constructor(id, title, category, rating, price, image, description, status) {
     this.id = id;
     this.title = title;
     this.category = category;
@@ -9,6 +9,7 @@ class MediaItem {
     this.price = price;
     this.image = image;
     this.description = description;
+    this.status = status;
   }
 }
 
@@ -32,39 +33,43 @@ class MediaManager {
 const initialMediaData = [
   new MediaItem(
     1,
-    'Cyber Odyssey 2077',
+    'Orbitfall',
     'Games',
     4.8,
-    59.99,
-    'https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&q=80&w=600',
-    'An open-world action-adventure RPG set in a futuristic metropolis.'
+    'PHP 39.00',
+    'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&q=80&w=800',
+    'A last signal. An uncharted world. Step into the suit of a lone explorer and uncover what remains at the edge of the solar system. Traverse breathtaking landscapes, solve ancient mysteries, and test your will to survive.',
+    'Ready to play'
   ),
   new MediaItem(
     2,
-    'Live Esports Finals 2026',
+    'Afterhours Festival',
     'Events',
     4.9,
-    25.0,
-    'https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&q=80&w=600',
-    'Exclusive access to the annual global championship streaming event.'
+    'PHP 65.00',
+    'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&q=80&w=800',
+    'Exclusive global music and immersive art festival streaming live from London.',
+    'Booking confirmed'
   ),
   new MediaItem(
     3,
-    'Starlight Cinema Stream',
+    'Signal+',
     'Streaming',
-    4.6,
-    14.99,
-    'https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?auto=format&fit=crop&q=80&w=600',
-    'Unlimited HD streaming pass for indie film festivals and originals.'
+    4.7,
+    'PHP 12.00',
+    'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&q=80&w=800',
+    'Independent films, cutting-edge documentaries, and underground sci-fi series.',
+    'Subscription active'
   ),
   new MediaItem(
     4,
-    'Retro Arcade Collection',
+    'Driftline',
     'Games',
-    4.5,
-    19.99,
-    'https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&q=80&w=600',
-    'A nostalgia-filled bundle featuring classics restored in High Definition.'
+    4.6,
+    'PHP 29.00',
+    'https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&q=80&w=800',
+    'High-speed cyberpunk street racing across neon-lit dystopian highways.',
+    'Ready to play'
   ),
 ];
 
@@ -91,120 +96,136 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-900 text-slate-100 flex flex-col font-sans">
-      <header className="bg-slate-800 border-b border-slate-700 p-4 sticky top-0 z-10 shadow-lg">
-        <div className="max-w-6xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4">
-          <h1 className="text-2xl font-bold tracking-wider text-indigo-400">
-            NEXUS ENTERTAINMENT
-          </h1>
-          <nav className="flex items-center gap-3">
+    <div className="min-h-screen bg-black text-white font-sans selection:bg-[#CCFF00] selection:text-black">
+      <header className="border-b border-zinc-800 px-6 py-4 sticky top-0 z-10 bg-black/90 backdrop-blur">
+        <div className="max-w-7xl mx-auto flex justify-between items-center">
+          <div className="flex items-center gap-2">
+            <span className="bg-[#CCFF00] text-black font-black px-2.5 py-1 rounded text-lg tracking-wider">
+              N
+            </span>
+            <span className="font-bold tracking-widest text-lg">NEXUS ENTERTAINMENT</span>
+          </div>
+          <nav className="flex items-center gap-6 text-sm">
             <button
               onClick={() => setActiveTab('catalog')}
-              className={`px-4 py-2 rounded-lg font-medium transition ${
-                activeTab === 'catalog'
-                  ? 'bg-indigo-600 text-white'
-                  : 'bg-slate-700 hover:bg-slate-600 text-slate-300'
+              className={`transition hover:text-[#CCFF00] ${
+                activeTab === 'catalog' ? 'text-white font-semibold' : 'text-zinc-400'
               }`}
             >
-              Catalog
+              Discover
             </button>
             <button
               onClick={() => setActiveTab('library')}
-              className={`px-4 py-2 rounded-lg font-medium transition relative ${
-                activeTab === 'library'
-                  ? 'bg-indigo-600 text-white'
-                  : 'bg-slate-700 hover:bg-slate-600 text-slate-300'
+              className={`transition flex items-center gap-1.5 hover:text-[#CCFF00] ${
+                activeTab === 'library' ? 'text-white font-semibold' : 'text-zinc-400'
               }`}
             >
               My Library
-              {myLibrary.length > 0 && (
-                <span className="ml-2 bg-indigo-400 text-slate-900 px-2 py-0.5 rounded-full text-xs font-bold">
-                  {myLibrary.length}
-                </span>
-              )}
+              <span className="bg-zinc-800 text-white px-2 py-0.5 rounded-full text-xs">
+                {myLibrary.length}
+              </span>
             </button>
             <a
               href={figmaLink}
               target="_blank"
               rel="noopener noreferrer"
-              className="px-4 py-2 rounded-lg font-medium bg-emerald-600 hover:bg-emerald-500 text-white transition flex items-center gap-1 shadow-md"
+              className="bg-zinc-800 hover:bg-zinc-700 text-white px-3 py-1.5 rounded-full text-xs font-medium transition border border-zinc-700"
             >
-              Figma Wireframe ↗
+              Figma ↗
             </a>
           </nav>
         </div>
       </header>
 
-      <main className="flex-1 max-w-6xl w-full mx-auto p-6">
+      <main className="max-w-7xl mx-auto px-6 py-10">
         {activeTab === 'catalog' && (
           <div>
-            <div className="flex flex-col md:flex-row justify-between items-center gap-4 mb-8">
-              <input
-                type="text"
-                placeholder="Search entertainment..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full md:w-1/2 p-3 bg-slate-800 border border-slate-700 rounded-lg text-white focus:outline-none focus:border-indigo-500"
-              />
-              <div className="flex gap-2">
-                {['All', 'Games', 'Events', 'Streaming'].map((cat) => (
-                  <button
-                    key={cat}
-                    onClick={() => setSelectedCategory(cat)}
-                    className={`px-4 py-2 rounded-lg text-sm font-semibold transition ${
-                      selectedCategory === cat
-                        ? 'bg-indigo-500 text-white'
-                        : 'bg-slate-800 text-slate-400 hover:bg-slate-700'
-                    }`}
-                  >
-                    {cat}
-                  </button>
-                ))}
+            <div className="mb-12">
+              <p className="text-xs uppercase tracking-widest text-[#CCFF00] font-semibold mb-2">
+                YOUR NEXT OBSESSION
+              </p>
+              <h1 className="text-5xl font-extrabold tracking-tight mb-8">
+                Good times. On demand.
+              </h1>
+              <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+                <div className="relative w-full md:w-96">
+                  <input
+                    type="text"
+                    placeholder="Search games, events, streaming..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="w-full bg-zinc-900 border border-zinc-800 rounded-lg px-4 py-2.5 text-sm text-white placeholder-zinc-500 focus:outline-none focus:border-[#CCFF00]"
+                  />
+                  {searchQuery && (
+                    <button
+                      onClick={() => setSearchQuery('')}
+                      className="absolute right-3 top-3 text-zinc-500 hover:text-white text-xs"
+                    >
+                      ✕
+                    </button>
+                  )}
+                </div>
+                <div className="flex items-center gap-2 w-full md:w-auto overflow-x-auto">
+                  {['All', 'Games', 'Events', 'Streaming'].map((cat) => (
+                    <button
+                      key={cat}
+                      onClick={() => setSelectedCategory(cat)}
+                      className={`px-4 py-2 rounded-full text-xs font-semibold transition ${
+                        selectedCategory === cat
+                          ? 'bg-[#CCFF00] text-black'
+                          : 'bg-zinc-900 text-zinc-400 hover:bg-zinc-800 hover:text-white border border-zinc-800'
+                      }`}
+                    >
+                      {cat}
+                    </button>
+                  ))}
+                </div>
               </div>
+            </div>
+
+            <div className="flex justify-between items-center mb-6">
+              <span className="text-xs text-zinc-400 uppercase tracking-wider">
+                Curated for your downtime
+              </span>
+              <span className="text-xs text-zinc-500">
+                {filteredItems.length} experiences
+              </span>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {filteredItems.map((item) => (
                 <div
                   key={item.id}
-                  className="bg-slate-800 border border-slate-700 rounded-xl overflow-hidden shadow-md hover:shadow-xl transition flex flex-col"
+                  onClick={() => setSelectedMedia(item)}
+                  className="bg-zinc-900/60 border border-zinc-800 rounded-xl overflow-hidden group cursor-pointer hover:border-zinc-700 transition flex flex-col"
                 >
-                  <img
-                    src={item.image}
-                    alt={item.title}
-                    className="h-44 w-full object-cover"
-                  />
-                  <div className="p-4 flex-1 flex flex-col justify-between">
-                    <div>
-                      <div className="flex justify-between items-center mb-2">
-                        <span className="text-xs uppercase font-bold text-indigo-400 tracking-wider">
-                          {item.category}
-                        </span>
-                        <span className="text-xs text-amber-400 font-bold">
-                          ★ {item.rating}
-                        </span>
-                      </div>
-                      <h3 className="font-semibold text-lg mb-1">{item.title}</h3>
-                      <p className="text-slate-400 text-sm line-clamp-2 mb-4">
-                        {item.description}
-                      </p>
+                  <div className="h-52 overflow-hidden relative">
+                    <img
+                      src={item.image}
+                      alt={item.title}
+                      className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
+                    />
+                    <div className="absolute top-3 left-3 bg-black/60 backdrop-blur px-2.5 py-1 rounded text-[10px] font-bold uppercase tracking-wider text-[#CCFF00]">
+                      {item.category}
                     </div>
+                  </div>
+                  <div className="p-5 flex-1 flex flex-col justify-between">
                     <div>
-                      <div className="text-xl font-bold mb-3">${item.price}</div>
-                      <div className="flex gap-2">
-                        <button
-                          onClick={() => setSelectedMedia(item)}
-                          className="flex-1 py-2 bg-slate-700 hover:bg-slate-600 rounded-lg text-sm font-medium"
-                        >
-                          Details
-                        </button>
-                        <button
-                          onClick={() => addToLibrary(item)}
-                          className="flex-1 py-2 bg-indigo-600 hover:bg-indigo-500 rounded-lg text-sm font-medium"
-                        >
-                          Add
-                        </button>
+                      <h3 className="font-bold text-lg text-white mb-1 group-hover:text-[#CCFF00] transition">
+                        {item.title}
+                      </h3>
+                      <div className="flex items-center gap-1 text-xs text-zinc-400 mb-4">
+                        <span>★ {item.rating}</span>
                       </div>
+                    </div>
+                    <div className="pt-4 border-t border-zinc-800/80 flex justify-between items-center">
+                      <div>
+                        <div className="text-sm font-extrabold text-white">{item.price}</div>
+                        <div className="text-[10px] text-zinc-500">One-time purchase</div>
+                      </div>
+                      <span className="w-8 h-8 rounded-full bg-zinc-800 flex items-center justify-center text-xs group-hover:bg-[#CCFF00] group-hover:text-black transition">
+                        ↗
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -215,38 +236,52 @@ export default function App() {
 
         {activeTab === 'library' && (
           <div>
-            <h2 className="text-2xl font-bold mb-6">My Booked Library</h2>
-            {myLibrary.length === 0 ? (
-              <p className="text-slate-400">
-                Your library is currently empty. Browse the catalog to add items!
+            <div className="mb-8">
+              <p className="text-xs uppercase tracking-widest text-[#CCFF00] font-semibold mb-2">
+                MAKE TIME FOR WHAT MOVES YOU
               </p>
+              <h1 className="text-4xl font-extrabold tracking-tight">My Booked Library</h1>
+            </div>
+            {myLibrary.length === 0 ? (
+              <div className="border border-dashed border-zinc-800 rounded-2xl p-12 text-center text-zinc-500">
+                <p>Your library is currently empty. Explore the catalog to book experiences!</p>
+              </div>
             ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="space-y-4">
                 {myLibrary.map((item) => (
                   <div
                     key={item.id}
-                    className="bg-slate-800 border border-slate-700 rounded-xl p-4 flex gap-4 items-center"
+                    className="bg-zinc-900/60 border border-zinc-800 rounded-xl p-4 flex flex-col sm:flex-row items-center justify-between gap-4"
                   >
-                    <img
-                      src={item.image}
-                      alt={item.title}
-                      className="w-20 h-20 object-cover rounded-lg"
-                    />
-                    <div className="flex-1">
-                      <h3 className="font-semibold">{item.title}</h3>
-                      <p className="text-xs text-indigo-400 uppercase">
-                        {item.category}
-                      </p>
-                      <p className="text-sm font-bold text-slate-300 mt-1">
-                        ${item.price}
-                      </p>
+                    <div className="flex items-center gap-4 w-full sm:w-auto">
+                      <img
+                        src={item.image}
+                        alt={item.title}
+                        className="w-24 h-20 object-cover rounded-lg"
+                      />
+                      <div>
+                        <span className="text-[10px] uppercase font-bold text-[#CCFF00] tracking-wider">
+                          {item.category}
+                        </span>
+                        <h3 className="font-bold text-lg text-white">{item.title}</h3>
+                        <div className="flex items-center gap-2 mt-1">
+                          <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
+                          <span className="text-xs text-zinc-400">{item.status}</span>
+                        </div>
+                      </div>
                     </div>
-                    <button
-                      onClick={() => removeFromLibrary(item.id)}
-                      className="px-3 py-1.5 bg-rose-600 hover:bg-rose-500 text-white rounded-lg text-sm font-medium"
-                    >
-                      Remove
-                    </button>
+                    <div className="flex items-center justify-between w-full sm:w-auto gap-6 border-t sm:border-t-0 pt-3 sm:pt-0 border-zinc-800">
+                      <div className="text-right">
+                        <div className="text-base font-extrabold text-white">{item.price}</div>
+                        <div className="text-[10px] text-zinc-500">Verified purchase</div>
+                      </div>
+                      <button
+                        onClick={() => removeFromLibrary(item.id)}
+                        className="bg-zinc-800 hover:bg-rose-950/50 hover:text-rose-400 text-zinc-300 px-3 py-1.5 rounded-lg text-xs font-medium transition border border-zinc-700"
+                      >
+                        Remove ✕
+                      </button>
+                    </div>
                   </div>
                 ))}
               </div>
@@ -255,39 +290,51 @@ export default function App() {
         )}
 
         {selectedMedia && (
-          <div className="fixed inset-0 bg-black/70 flex items-center justify-center p-4 z-50">
-            <div className="bg-slate-800 border border-slate-700 rounded-2xl max-w-lg w-full p-6 relative">
+          <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 z-50 animate-fade-in">
+            <div className="bg-zinc-900 border border-zinc-800 rounded-2xl max-w-3xl w-full overflow-hidden relative shadow-2xl">
               <button
                 onClick={() => setSelectedMedia(null)}
-                className="absolute top-4 right-4 text-slate-400 hover:text-white text-xl"
+                className="absolute top-4 right-4 bg-black/60 text-white w-8 h-8 rounded-full flex items-center justify-center hover:bg-white hover:text-black transition z-10 text-sm font-bold"
               >
                 ✕
               </button>
-              <img
-                src={selectedMedia.image}
-                alt={selectedMedia.title}
-                className="w-full h-56 object-cover rounded-xl mb-4"
-              />
-              <span className="text-xs font-bold text-indigo-400 uppercase tracking-wider">
-                {selectedMedia.category}
-              </span>
-              <h2 className="text-2xl font-bold mt-1 mb-2">
-                {selectedMedia.title}
-              </h2>
-              <p className="text-slate-300 text-sm mb-4">
-                {selectedMedia.description}
-              </p>
-              <div className="flex justify-between items-center pt-4 border-t border-slate-700">
-                <span className="text-2xl font-bold">${selectedMedia.price}</span>
-                <button
-                  onClick={() => {
-                    addToLibrary(selectedMedia);
-                    setSelectedMedia(null);
-                  }}
-                  className="px-6 py-2.5 bg-indigo-600 hover:bg-indigo-500 rounded-xl font-semibold"
-                >
-                  Book / Add to Library
-                </button>
+              <div className="h-72 w-full relative">
+                <img
+                  src={selectedMedia.image}
+                  alt={selectedMedia.title}
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-zinc-900 via-transparent to-transparent"></div>
+              </div>
+              <div className="p-8">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-xs font-bold text-[#CCFF00] uppercase tracking-wider">
+                    GAMES • Open world adventure
+                  </span>
+                  <span className="text-xs text-zinc-400">★ {selectedMedia.rating}</span>
+                </div>
+                <h2 className="text-3xl font-black text-white mb-2">{selectedMedia.title}</h2>
+                <p className="text-zinc-300 text-sm leading-relaxed mb-6">
+                  {selectedMedia.description}
+                </p>
+                <div className="flex flex-col sm:flex-row justify-between items-center pt-6 border-t border-zinc-800 gap-4">
+                  <div>
+                    <div className="text-2xl font-black text-white">{selectedMedia.price}</div>
+                    <div className="text-xs text-zinc-500">One-time purchase</div>
+                  </div>
+                  <button
+                    onClick={() => {
+                      addToLibrary(selectedMedia);
+                      setSelectedMedia(null);
+                    }}
+                    className="w-full sm:w-auto bg-[#CCFF00] hover:bg-[#b3e600] text-black px-8 py-3 rounded-xl font-bold text-sm transition shadow-lg flex items-center justify-center gap-2"
+                  >
+                    Add / Book Now +
+                  </button>
+                </div>
+                <div className="text-center mt-4">
+                  <span className="text-[10px] text-zinc-500">🔒 Secure checkout • Nexus Gateway</span>
+                </div>
               </div>
             </div>
           </div>
