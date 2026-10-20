@@ -76,6 +76,8 @@ export default function App() {
   const [selectedMedia, setSelectedMedia] = useState(null);
   const [activeTab, setActiveTab] = useState('catalog');
 
+  const figmaLink = "https://www.figma.com/design/HOmQClOofxlKSWVaOPaLeN/Repolidon_Nexus-Entertainment-UI?node-id=0-1&t=Iqx5Fshd7RTWk8cJ-1";
+
   const filteredItems = manager.filterItems(selectedCategory, searchQuery);
 
   const addToLibrary = (item) => {
@@ -95,7 +97,7 @@ export default function App() {
           <h1 className="text-2xl font-bold tracking-wider text-indigo-400">
             NEXUS ENTERTAINMENT
           </h1>
-          <nav className="flex gap-4">
+          <nav className="flex items-center gap-3">
             <button
               onClick={() => setActiveTab('catalog')}
               className={`px-4 py-2 rounded-lg font-medium transition ${
@@ -121,6 +123,14 @@ export default function App() {
                 </span>
               )}
             </button>
+            <a
+              href={figmaLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-4 py-2 rounded-lg font-medium bg-emerald-600 hover:bg-emerald-500 text-white transition flex items-center gap-1 shadow-md"
+            >
+              Figma Wireframe ↗
+            </a>
           </nav>
         </div>
       </header>
@@ -167,4 +177,122 @@ export default function App() {
                   <div className="p-4 flex-1 flex flex-col justify-between">
                     <div>
                       <div className="flex justify-between items-center mb-2">
-                        <span className="text-xs uppercase font-bold text-indigo-400 tracking-wider
+                        <span className="text-xs uppercase font-bold text-indigo-400 tracking-wider">
+                          {item.category}
+                        </span>
+                        <span className="text-xs text-amber-400 font-bold">
+                          ★ {item.rating}
+                        </span>
+                      </div>
+                      <h3 className="font-semibold text-lg mb-1">{item.title}</h3>
+                      <p className="text-slate-400 text-sm line-clamp-2 mb-4">
+                        {item.description}
+                      </p>
+                    </div>
+                    <div>
+                      <div className="text-xl font-bold mb-3">${item.price}</div>
+                      <div className="flex gap-2">
+                        <button
+                          onClick={() => setSelectedMedia(item)}
+                          className="flex-1 py-2 bg-slate-700 hover:bg-slate-600 rounded-lg text-sm font-medium"
+                        >
+                          Details
+                        </button>
+                        <button
+                          onClick={() => addToLibrary(item)}
+                          className="flex-1 py-2 bg-indigo-600 hover:bg-indigo-500 rounded-lg text-sm font-medium"
+                        >
+                          Add
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {activeTab === 'library' && (
+          <div>
+            <h2 className="text-2xl font-bold mb-6">My Booked Library</h2>
+            {myLibrary.length === 0 ? (
+              <p className="text-slate-400">
+                Your library is currently empty. Browse the catalog to add items!
+              </p>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {myLibrary.map((item) => (
+                  <div
+                    key={item.id}
+                    className="bg-slate-800 border border-slate-700 rounded-xl p-4 flex gap-4 items-center"
+                  >
+                    <img
+                      src={item.image}
+                      alt={item.title}
+                      className="w-20 h-20 object-cover rounded-lg"
+                    />
+                    <div className="flex-1">
+                      <h3 className="font-semibold">{item.title}</h3>
+                      <p className="text-xs text-indigo-400 uppercase">
+                        {item.category}
+                      </p>
+                      <p className="text-sm font-bold text-slate-300 mt-1">
+                        ${item.price}
+                      </p>
+                    </div>
+                    <button
+                      onClick={() => removeFromLibrary(item.id)}
+                      className="px-3 py-1.5 bg-rose-600 hover:bg-rose-500 text-white rounded-lg text-sm font-medium"
+                    >
+                      Remove
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
+        {selectedMedia && (
+          <div className="fixed inset-0 bg-black/70 flex items-center justify-center p-4 z-50">
+            <div className="bg-slate-800 border border-slate-700 rounded-2xl max-w-lg w-full p-6 relative">
+              <button
+                onClick={() => setSelectedMedia(null)}
+                className="absolute top-4 right-4 text-slate-400 hover:text-white text-xl"
+              >
+                ✕
+              </button>
+              <img
+                src={selectedMedia.image}
+                alt={selectedMedia.title}
+                className="w-full h-56 object-cover rounded-xl mb-4"
+              />
+              <span className="text-xs font-bold text-indigo-400 uppercase tracking-wider">
+                {selectedMedia.category}
+              </span>
+              <h2 className="text-2xl font-bold mt-1 mb-2">
+                {selectedMedia.title}
+              </h2>
+              <p className="text-slate-300 text-sm mb-4">
+                {selectedMedia.description}
+              </p>
+              <div className="flex justify-between items-center pt-4 border-t border-slate-700">
+                <span className="text-2xl font-bold">${selectedMedia.price}</span>
+                <button
+                  onClick={() => {
+                    addToLibrary(selectedMedia);
+                    setSelectedMedia(null);
+                  }}
+                  className="px-6 py-2.5 bg-indigo-600 hover:bg-indigo-500 rounded-xl font-semibold"
+                >
+                  Book / Add to Library
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+      </main>
+    </div>
+  );
+}
